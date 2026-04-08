@@ -118,8 +118,6 @@ body {
   line-height: 1.6;
   color: var(--text);
   background:
-    radial-gradient(900px 520px at 0% 0%, var(--page-glow-a), transparent 62%),
-    radial-gradient(780px 440px at 100% 0%, var(--page-glow-b), transparent 58%),
     radial-gradient(900px 520px at 50% 100%, var(--page-glow-c), transparent 62%),
     linear-gradient(180deg, var(--page-wash) 0%, var(--bg) 100%);
   -webkit-font-smoothing: antialiased;
@@ -130,10 +128,8 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(120deg, rgba(255,255,255,.18), rgba(255,255,255,0) 32%),
-    radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 30%);
-  opacity: .55;
+  background: linear-gradient(120deg, rgba(255,255,255,.12), rgba(255,255,255,0) 28%);
+  opacity: .35;
   z-index: 0;
 }
 main,
@@ -373,10 +369,7 @@ a:hover { text-decoration: underline; }
 /* HERO */
 .hero {
   padding: 96px 0 72px;
-  background:
-    radial-gradient(1200px 400px at 50% -20%, var(--accent-soft), transparent 60%),
-    radial-gradient(900px 420px at 85% 10%, var(--page-glow-b), transparent 60%),
-    var(--bg);
+  background: transparent;
 }
 .eyebrow {
   font-size: 13px;
@@ -986,6 +979,18 @@ a:hover { text-decoration: underline; }
   -webkit-backdrop-filter: var(--glass-blur);
   position: relative;
   overflow: hidden;
+}
+.nav-github svg {
+  flex: 0 0 auto;
+}
+.nav-github span {
+  line-height: 1;
+}
+.nav-github-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
 }
 .nav-github:hover,
 .nav-guide:hover {
