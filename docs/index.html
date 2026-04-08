@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mitigating Identity Bias in Hindi Toxicity Detection</title>
   <meta name="description" content="A study comparing Counterfactual Data Augmentation and Adversarial Debiasing for fair Hindi-English code-mixed hate speech detection." />
+  <meta name="theme-color" content="#fafafa" />
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem("theme");
+        var theme = storedTheme === "dark" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        var themeColor = document.querySelector('meta[name="theme-color"]');
+        if (themeColor) {
+          themeColor.setAttribute("content", theme === "dark" ? "#0d1117" : "#fafafa");
+        }
+      } catch (error) {}
+    })();
+  </script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -23,9 +37,6 @@
         <span class="brand-mark">HT</span>
         <span class="brand-text">Hindi Toxicity Bias</span>
       </a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
       <ul class="nav-links">
         <li><a href="#abstract">Abstract</a></li>
         <li><a href="#authors">Authors</a></li>
@@ -34,8 +45,26 @@
         <li><a href="#results">Results</a></li>
         <li><a href="#analysis">Analysis</a></li>
         <li><a href="#reproduce">Reproduce</a></li>
-        <li><a href="paper.pdf" class="nav-pdf" target="_blank" rel="noopener">📄 PDF</a></li>
+        <li class="nav-mobile-only"><a href="https://github.com/DevanshSrajput/Hindi-Toxicity-Bias" class="nav-github" target="_blank" rel="noopener">GitHub Repo</a></li>
+        <li class="nav-mobile-only"><a href="Research_Explained_Simply.pdf" class="nav-guide" target="_blank" rel="noopener">Simple Guide</a></li>
+        <li class="nav-mobile-only"><a href="paper.pdf" class="nav-pdf" target="_blank" rel="noopener">📄 PDF</a></li>
       </ul>
+      <div class="nav-actions">
+        <div class="nav-shortcuts">
+          <a href="https://github.com/DevanshSrajput/Hindi-Toxicity-Bias" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+          <a href="Research_Explained_Simply.pdf" class="nav-guide" target="_blank" rel="noopener">Simple Guide</a>
+          <a href="paper.pdf" class="nav-pdf" target="_blank" rel="noopener">📄 PDF</a>
+        </div>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-switch" aria-hidden="true">
+            <span class="theme-toggle-thumb"></span>
+          </span>
+          <span class="theme-toggle-text">Dark mode</span>
+        </button>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </nav>
   </header>
 
@@ -73,6 +102,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Read the Paper
           </a>
+          <a href="Research_Explained_Simply.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Simple Explanation</a>
           <a href="#results" class="btn btn-ghost">View Results</a>
           <a href="#reproduce" class="btn btn-ghost">Reproduce</a>
         </div>
@@ -147,14 +177,17 @@
         </div>
 
         <div class="paper-cta">
-          <div>
-            <h3>Full Research Paper</h3>
-            <p>Read the complete write-up — methodology, results, discussion, and references.</p>
+          <div class="paper-cta-copy">
+            <h3>Paper + Simple Guide</h3>
+            <p>Choose the full research paper for technical detail, or open the plain-language PDF for a simpler walkthrough of the same ideas.</p>
           </div>
-          <a href="paper.pdf" target="_blank" rel="noopener" class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Open PDF
-          </a>
+          <div class="paper-cta-actions">
+            <a href="paper.pdf" target="_blank" rel="noopener" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;vertical-align:-3px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Open Paper
+            </a>
+            <a href="Research_Explained_Simply.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Read Simple Guide</a>
+          </div>
         </div>
       </div>
     </section>
@@ -479,6 +512,7 @@
         <p class="footer-head">Resources</p>
         <ul>
           <li><a href="paper.pdf" target="_blank" rel="noopener">Full PDF paper</a></li>
+          <li><a href="Research_Explained_Simply.pdf" target="_blank" rel="noopener">Research explained simply</a></li>
           <li><a href="#reproduce">Reproduction guide</a></li>
           <li><a href="#analysis">Limitations</a></li>
         </ul>
