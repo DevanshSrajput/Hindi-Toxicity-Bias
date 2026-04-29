@@ -109,6 +109,7 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   background: var(--bg);
+  scroll-padding-top: 112px;
 }
 body {
   position: relative;
@@ -158,13 +159,14 @@ a:hover { text-decoration: underline; }
   transition: transform .25s ease;
 }
 .nav {
-  max-width: var(--max-width);
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 14px 24px;
+  min-height: 68px;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 12px;
   background: var(--header-bg);
   border: 1px solid var(--header-border);
   border-radius: 24px;
@@ -172,7 +174,7 @@ a:hover { text-decoration: underline; }
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, backdrop-filter .25s ease, -webkit-backdrop-filter .25s ease;
-  overflow: hidden;
+  overflow: visible;
 }
 .site-header.scrolled .nav {
   background: var(--header-bg-scrolled);
@@ -194,7 +196,7 @@ a:hover { text-decoration: underline; }
   font-size: 12px; font-weight: 700; letter-spacing: .5px;
 }
 .brand-text {
-  font-size: 15px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -202,7 +204,7 @@ a:hover { text-decoration: underline; }
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 22px;
+  gap: 12px;
   list-style: none; margin: 0; padding: 0;
   flex: 1 1 auto;
   min-width: 0;
@@ -217,7 +219,7 @@ a:hover { text-decoration: underline; }
 }
 .nav-links a {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   transition: color .15s ease;
   white-space: nowrap;
@@ -227,14 +229,14 @@ a:hover { text-decoration: underline; }
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   flex: 0 0 auto;
 }
 
 .nav-shortcuts {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .theme-toggle {
@@ -245,7 +247,7 @@ a:hover { text-decoration: underline; }
   background: var(--surface-strong);
   color: var(--text);
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 8px 12px;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -262,7 +264,7 @@ a:hover { text-decoration: underline; }
 }
 .theme-toggle-switch {
   position: relative;
-  width: 46px;
+  width: 42px;
   height: 26px;
   border-radius: 999px;
   background:
@@ -321,7 +323,7 @@ a:hover { text-decoration: underline; }
   transform: scale(1);
 }
 :root[data-theme="dark"] .theme-toggle-thumb {
-  transform: translateX(20px) rotate(180deg);
+  transform: translateX(16px) rotate(180deg);
   background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
   box-shadow:
     inset -7px -3px 0 rgba(100, 116, 139, 0.95),
@@ -464,6 +466,7 @@ a:hover { text-decoration: underline; }
 .section {
   padding: 80px 0;
   border-top: 1px solid var(--border);
+  scroll-margin-top: 112px;
 }
 .section-alt {
   background: linear-gradient(180deg, transparent 0%, var(--surface-soft) 15%, var(--surface-soft) 85%, transparent 100%);
@@ -514,6 +517,7 @@ a:hover { text-decoration: underline; }
 .theme-toggle::before,
 .nav::before,
 .nav-github::before,
+.nav-showcase::before,
 .nav-guide::before,
 .nav-pdf::before,
 .btn-ghost::before,
@@ -962,6 +966,7 @@ a:hover { text-decoration: underline; }
 }
 
 .nav-github,
+.nav-showcase,
 .nav-guide {
   display: inline-flex;
   align-items: center;
@@ -993,9 +998,14 @@ a:hover { text-decoration: underline; }
   border-radius: 50%;
 }
 .nav-github:hover,
+.nav-showcase:hover,
 .nav-guide:hover {
   background: var(--bg-alt);
   text-decoration: none !important;
+}
+.nav-showcase {
+  background: linear-gradient(135deg, rgba(22, 163, 74, .16), rgba(43, 95, 255, .14));
+  border-color: color-mix(in srgb, var(--glass-border) 65%, var(--cda) 35%);
 }
 .nav-pdf {
   display: inline-flex;
@@ -1030,8 +1040,8 @@ a:hover { text-decoration: underline; }
   .nav-links a { font-size: 13px; }
   .theme-toggle { padding: 8px 12px; }
   .nav-shortcuts { gap: 8px; }
-  .nav-github, .nav-guide, .nav-pdf { font-size: 12px !important; }
-  .nav-guide, .nav-pdf { padding: 8px 12px; }
+  .nav-github, .nav-showcase, .nav-guide, .nav-pdf { font-size: 12px !important; }
+  .nav-showcase, .nav-guide, .nav-pdf { padding: 8px 12px; }
 }
 @media (max-width: 1360px) {
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -1076,7 +1086,7 @@ a:hover { text-decoration: underline; }
     width: 100%;
     justify-content: center;
   }
-  .nav-guide, .nav-pdf {
+  .nav-showcase, .nav-guide, .nav-pdf {
     width: 100%;
     justify-content: center;
   }

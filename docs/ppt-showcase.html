@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hindi Toxicity Bias Research Showcase</title>
+  <meta
+    name="description"
+    content="Presentation dashboard for the Hindi-Hinglish toxicity bias mitigation research project."
+  />
+  <meta name="theme-color" content="#f6f8fb" />
+  <link rel="stylesheet" href="ppt-showcase.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#overview" aria-label="Hindi Toxicity Bias showcase">
+      <span class="brand-mark">HT</span>
+      <span>
+        <strong>Hindi Toxicity Bias</strong>
+        <small>XLM-R fairness audit</small>
+      </span>
+    </a>
+
+    <nav class="deck-nav" aria-label="Deck sections">
+      <a href="#overview">Overview</a>
+      <a href="#implementation">Implementation</a>
+      <a href="#results">Results</a>
+      <a href="#takeaways">Takeaways</a>
+    </nav>
+
+    <a class="paper-link" href="paper.pdf" target="_blank" rel="noopener">Paper PDF</a>
+  </header>
+
+  <main class="deck">
+    <section class="slide overview-slide" id="overview" aria-labelledby="overview-title">
+      <div class="overview-grid">
+        <div class="title-panel">
+          <p class="kicker">Fairness in Hindi-English code-mixed NLP</p>
+          <h1 id="overview-title">Quantifying identity bias in Hinglish toxicity classifiers</h1>
+          <p class="lede">
+            A controlled XLM-RoBERTa study comparing standard fine-tuning,
+            Counterfactual Data Augmentation, and Gradient-Reversal Adversarial Debiasing.
+          </p>
+        </div>
+
+        <div class="metric-wall" aria-label="Headline research metrics">
+          <article class="metric-card large">
+            <span class="metric-label">Dataset</span>
+            <strong>29,550</strong>
+            <span>Hinglish social posts</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Identity-bearing</span>
+            <strong>23.6%</strong>
+            <span>6,973 samples</span>
+          </article>
+          <article class="metric-card winner">
+            <span class="metric-label">Best mitigation</span>
+            <strong>CDA</strong>
+            <span>Wins all fairness metrics</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Utility cost</span>
+            <strong>1.8</strong>
+            <span>F1 points vs baseline</span>
+          </article>
+        </div>
+
+        <div class="identity-panel">
+          <div class="panel-heading">
+            <span class="section-number">01</span>
+            <h2>Identity Coverage</h2>
+          </div>
+          <div class="identity-bars" aria-label="Identity group sample coverage">
+            <div class="identity-row">
+              <span>Gender</span>
+              <div class="mini-track"><i style="width: 100%"></i></div>
+              <strong>4,722</strong>
+            </div>
+            <div class="identity-row">
+              <span>Religion</span>
+              <div class="mini-track"><i style="width: 37.6%"></i></div>
+              <strong>1,777</strong>
+            </div>
+            <div class="identity-row">
+              <span>Caste</span>
+              <div class="mini-track"><i style="width: 8.7%"></i></div>
+              <strong>411</strong>
+            </div>
+            <div class="identity-row muted">
+              <span>Region</span>
+              <div class="mini-track"><i style="width: 1.3%"></i></div>
+              <strong>63</strong>
+            </div>
+          </div>
+          <p class="note">Region is reported but not interpreted strongly because n=63.</p>
+        </div>
+
+        <div class="thesis-panel">
+          <span class="quote-mark">"</span>
+          <p>
+            CDA reduces identity-correlated false positives while preserving most classifier utility.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="implementation" aria-labelledby="implementation-title">
+      <div class="slide-header">
+        <span class="section-number">02</span>
+        <div>
+          <p class="kicker">Implemented pipeline</p>
+          <h2 id="implementation-title">From raw Hinglish text to fairness-aware evaluation</h2>
+        </div>
+      </div>
+
+      <div class="pipeline" aria-label="Research implementation pipeline">
+        <article class="pipeline-node">
+          <span class="node-tag">Data</span>
+          <h3>Preprocess + split</h3>
+          <p>Auto-detect text and hate labels, then create 70 / 10 / 20 stratified splits.</p>
+          <code>src/data_utils.py</code>
+        </article>
+        <article class="pipeline-node">
+          <span class="node-tag">Lexicon</span>
+          <h3>Identity tagging</h3>
+          <p>Mark religion, caste, gender, and region terms with curated Hinglish variants.</p>
+          <code>src/identity_detection.py</code>
+        </article>
+        <article class="pipeline-node highlight">
+          <span class="node-tag">Mitigation</span>
+          <h3>CDA generation</h3>
+          <p>Swap identity terms within the same group to build CAHH and CFT test pairs.</p>
+          <code>src/cda.py</code>
+        </article>
+        <article class="pipeline-node">
+          <span class="node-tag">Models</span>
+          <h3>Three matched runs</h3>
+          <p>Baseline, CDA, and adversarial models share XLM-RoBERTa hyperparameters.</p>
+          <code>src/train_*.py</code>
+        </article>
+        <article class="pipeline-node">
+          <span class="node-tag">Audit</span>
+          <h3>Bias metrics</h3>
+          <p>Compare FPR disparity, demographic parity gap, and counterfactual prediction shift.</p>
+          <code>src/bias_metrics.py</code>
+        </article>
+      </div>
+
+      <div class="model-strip">
+        <article class="model-card baseline">
+          <span>Baseline</span>
+          <strong>L<sub>tox</sub></strong>
+          <p>Standard toxicity classification objective.</p>
+        </article>
+        <article class="model-card cda">
+          <span>CDA</span>
+          <strong>L<sub>tox</sub> + CAHH</strong>
+          <p>Original plus identity-swapped examples.</p>
+        </article>
+        <article class="model-card adversarial">
+          <span>Adversarial</span>
+          <strong>L<sub>tox</sub> - &lambda; * L<sub>adv</sub></strong>
+          <p>Gradient reversal with &lambda; = 0.5.</p>
+        </article>
+      </div>
+
+      <div class="config-ribbon" aria-label="Training configuration">
+        <span>XLM-RoBERTa-base</span>
+        <span>128 tokens</span>
+        <span>Batch 32</span>
+        <span>5 epochs</span>
+        <span>AdamW 2e-5</span>
+        <span>Seed 42</span>
+      </div>
+    </section>
+
+    <section class="slide" id="results" aria-labelledby="results-title">
+      <div class="slide-header">
+        <span class="section-number">03</span>
+        <div>
+          <p class="kicker">Held-out test set, n = 5,911</p>
+          <h2 id="results-title">CDA produces the strongest fairness gains</h2>
+        </div>
+      </div>
+
+      <div class="results-layout">
+        <div class="chart-panel">
+          <div class="chart-header">
+            <h3>Fairness Metrics</h3>
+            <span>Lower is better</span>
+          </div>
+          <div id="fairnessChart" class="fairness-chart" aria-label="Fairness metric chart"></div>
+        </div>
+
+        <div class="scoreboard" aria-label="Model comparison table">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>F1</th>
+                <th>FPR &Delta;</th>
+                <th>DP &Delta;</th>
+                <th>CFT Gap</th>
+              </tr>
+            </thead>
+            <tbody id="scoreRows"></tbody>
+          </table>
+        </div>
+
+        <div class="gain-stack">
+          <article class="gain-card">
+            <span>FPR Disparity</span>
+            <strong id="fprGain">-54%</strong>
+            <p>CDA vs baseline</p>
+          </article>
+          <article class="gain-card">
+            <span>Demographic Parity</span>
+            <strong id="dpGain">-73%</strong>
+            <p>CDA vs baseline</p>
+          </article>
+          <article class="gain-card warning">
+            <span>Adversarial CFT Gap</span>
+            <strong id="advCftGain">+31%</strong>
+            <p>worse than baseline</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="analysis-graphs">
+        <div class="chart-panel compact">
+          <div class="chart-header">
+            <h3>Per-Group False Positive Rate</h3>
+            <span>Identity audit</span>
+          </div>
+          <div id="groupFprChart" class="group-chart" aria-label="False positive rate by identity group"></div>
+        </div>
+
+        <div class="chart-panel compact">
+          <div class="chart-header">
+            <h3>Utility vs Bias</h3>
+            <span>Top-left is best</span>
+          </div>
+          <div id="tradeoffChart" class="tradeoff-chart" aria-label="Tradeoff chart of F1 and FPR disparity"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="takeaways" aria-labelledby="takeaways-title">
+      <div class="slide-header">
+        <span class="section-number">04</span>
+        <div>
+          <p class="kicker">Presentation-ready interpretation</p>
+          <h2 id="takeaways-title">What the results mean</h2>
+        </div>
+      </div>
+
+      <div class="takeaway-grid">
+        <article class="takeaway-card primary">
+          <span>01</span>
+          <h3>CDA is the practical winner</h3>
+          <p>
+            It improves every fairness metric with a small F1 tradeoff, making it the strongest
+            mitigation strategy for this project.
+          </p>
+        </article>
+        <article class="takeaway-card">
+          <span>02</span>
+          <h3>Caste false positives are highest</h3>
+          <p>
+            Baseline caste FPR is 0.421, nearly 3x gender FPR, showing why South Asian
+            identity-aware fairness audits matter.
+          </p>
+        </article>
+        <article class="takeaway-card">
+          <span>03</span>
+          <h3>Adversarial debiasing masks risk</h3>
+          <p>
+            It improves group-level fairness but increases counterfactual instability from
+            0.052 to 0.068.
+          </p>
+        </article>
+        <article class="takeaway-card">
+          <span>04</span>
+          <h3>Limitations are explicit</h3>
+          <p>
+            Single dataset, lexicon-based tagging, binary labels, single-seed runs, and a small
+            region subgroup constrain the claims.
+          </p>
+        </article>
+      </div>
+
+      <div class="closing-band">
+        <p>
+          Main PPT line: <strong>Counterfactual Data Augmentation is the more robust fairness
+          intervention for Hinglish toxicity classification.</strong>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="ppt-showcase.js"></script>
+</body>
+</html>
